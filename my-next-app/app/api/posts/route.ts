@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { isAuthenticated } from '@/lib/auth'
+import { put } from '@vercel/blob'
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
 
@@ -67,16 +68,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Save image to public/uploads
-    const bytes = await image.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    
+    // Upload image
     const timestamp = Date.now()
     const filename = `${timestamp}-${image.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
-    const filepath = join(process.cwd(), 'public', 'uploads', filename)
     
-    await writeFile(filepath, buffer)
-    const thumbnailUrl = `/uploads/${filename}`
+    let thumbnailUrl: string
+    
+    // Use Vercel Blob in production, local filesystem in development
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(filename, image, {
+        access: 'public',
+      })
+      thumbnailUrl = blob.url
+    } else {
+      // Local development - save to public/uploads
+      const bytes = await image.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      const filepath = join(process.cwd(), 'public', 'uploads', filename)
+      await writeFile(filepath, buffer)
+      thumbnailUrl = `/uploads/${filename}`
+    }
 
     // Create post in database
     const post = await prisma.post.create({
