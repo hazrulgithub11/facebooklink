@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Apple-like typography and smoothing */
+  body {
+    @apply antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.003em;
+  }
+  
+  /* Improved scrolling on iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card base */
+  .glass-card {
+    @apply relative backdrop-blur-glass;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  }
+  
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.12);
+    transform: translateY(-2px);
+  }
+  
+  .glass-card-hover:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 6px 24px 0 rgba(31, 38, 135, 0.08);
+  }
+  
+  /* Gradient accent */
+  .gradient-crimson {
+    background: linear-gradient(135deg, #b2233c 0%, #d32f4a 50%, #e74c63 100%);
+  }
+  
+  .gradient-crimson-soft {
+    background: linear-gradient(135deg, rgba(178, 35, 60, 0.1) 0%, rgba(211, 47, 74, 0.08) 50%, rgba(231, 76, 99, 0.05) 100%);
+  }
+  
+  /* Glass header/footer */
+  .glass-nav {
+    @apply backdrop-blur-glass;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Smooth scroll container */
+  .scroll-smooth-ios {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+}
+
+@layer utilities {
+  /* Custom line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Frosted glass variants */
+  .frost-light {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  .frost-lighter {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  
+  /* Text shadows for depth */
+  .text-shadow-soft {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* iOS-like press animation */
+  .press-effect {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .press-effect:active {
+    transform: scale(0.98);
+    opacity: 0.92;
+  }
+  
+  /* Safe area support for iOS notch/home indicator */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
