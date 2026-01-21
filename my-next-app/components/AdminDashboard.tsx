@@ -11,7 +11,7 @@ interface Post {
   description: string | null
   thumbnailUrl: string
   isActive: boolean
-  createdAt: Date
+  createdAt: string
 }
 
 export default function AdminDashboard({ posts: initialPosts }: { posts: Post[] }) {

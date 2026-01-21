@@ -16,6 +16,12 @@ export default async function AdminPage() {
     orderBy: { createdAt: 'desc' },
   })
 
-  return <AdminDashboard posts={posts} />
+  // Serialize dates for client component
+  const serializedPosts = posts.map(post => ({
+    ...post,
+    createdAt: post.createdAt.toISOString(),
+  }))
+
+  return <AdminDashboard posts={serializedPosts} />
 }
 

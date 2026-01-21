@@ -11,9 +11,9 @@ interface Post {
   description: string | null
   thumbnailUrl: string
   isActive: boolean
-  createdAt: Date
+  createdAt: string
   savedId?: string
-  savedAt?: Date
+  savedAt?: string
 }
 
 export default function HomeClient({ initialPosts }: { initialPosts: Post[] }) {

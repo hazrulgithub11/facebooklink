@@ -9,5 +9,11 @@ export default async function HomePage() {
     orderBy: { createdAt: 'desc' },
   })
 
-  return <HomeClient initialPosts={posts} />
+  // Serialize dates for client component
+  const serializedPosts = posts.map(post => ({
+    ...post,
+    createdAt: post.createdAt.toISOString(),
+  }))
+
+  return <HomeClient initialPosts={serializedPosts} />
 }
